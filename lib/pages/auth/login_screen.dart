@@ -1,4 +1,9 @@
+import 'package:article_mobile_app/pages/home/navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:article_mobile_app/pages/auth/register_screen.dart';
+import 'package:article_mobile_app/services/auth/auth_services.dart';
+
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -67,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.bold,
                             )),
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const RegisterScreen()),
@@ -175,8 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/home');
-
+                              // Navigator.pushReplacementNamed(context, '/home');
+                              _onLoginButtonTapped();
                             },
                             // onPressed: _onLoginButtonTapped,
                             style: ElevatedButton.styleFrom(
@@ -215,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
       password: _passwordController.text,
     );
 
-    if (!mounted) return; // Check if the widget is still mounted
+    if (!mounted) return;
     await showDialog(
       context: context,
       barrierDismissible: true,

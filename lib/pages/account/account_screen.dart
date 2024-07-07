@@ -1,9 +1,11 @@
 import 'package:article_mobile_app/pages/account/change_password_screen.dart';
 import 'package:article_mobile_app/pages/auth/login_screen.dart';
 import 'package:article_mobile_app/pages/account/profile_screen.dart';
+import 'package:article_mobile_app/services/auth/auth_services.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
+  final AuthServices _authServices = AuthServices();
   void _navigateToProfile(BuildContext context) {
     // Logika navigasi ke halaman profil
     Navigator.push(
@@ -38,6 +40,7 @@ class AccountScreen extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // Implementasikan logika logout di sini
+                _authServices.logout();
                 Navigator.of(context).pop();
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -65,11 +68,11 @@ class AccountScreen extends StatelessWidget {
             title: Text('Profil'),
             onTap: () => _navigateToProfile(context),
           ),
-          ListTile(
-            leading: Icon(Icons.lock),
-            title: Text('Ubah Password'),
-            onTap: () => _navigateToChangePassword(context),
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.lock),
+          //   title: Text('Ubah Password'),
+          //   onTap: () => _navigateToChangePassword(context),
+          // ),
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Logout'),
@@ -80,4 +83,3 @@ class AccountScreen extends StatelessWidget {
     );
   }
 }
-

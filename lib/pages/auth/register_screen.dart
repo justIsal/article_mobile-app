@@ -1,7 +1,8 @@
+import 'package:article_mobile_app/pages/home/navigation_bar.dart';
+import 'package:article_mobile_app/services/auth/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:article_mobile_app/model/response_model.dart';
-import 'package:article_mobile_app/services/user/user_services.dart';
+import 'package:article_mobile_app/model/auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,7 +13,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   /* Membuat Instance User Services */
-  final UserServices _userServices = UserServices();
+  final AuthServices _authServices = AuthServices();
 
   final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
@@ -56,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         children: [
           const SizedBox(height: 50),
           Container(
-            padding: EdgeInsets.only(top: 30, right: 10),
+            padding: const EdgeInsets.only(top: 30, right: 10),
             height: 400,
             child: Column(
               children: [
@@ -67,7 +68,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
-                          // fontWeight: FontWeight.bold,
                         )),
                     TextButton(
                       child: const Text("SIGN IN",
@@ -83,11 +83,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 50),
-                  // height: 200,
+                  padding: const EdgeInsets.only(top: 50),
                   child: Text("Readss",
                       style: GoogleFonts.aBeeZee(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Colors.white,
                               fontSize: 40,
                               fontWeight: FontWeight.bold))),
@@ -114,136 +113,131 @@ class _RegisterScreenState extends State<RegisterScreen> {
               heightFactor: 0.7,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Colors.white, // Warna latar belakang
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0), // Radius sisi kiri atas
-                    topRight: Radius.circular(20.0), // Radius sisi kanan atas
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
                   ),
-                ), // Warna latar belakang
+                ),
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
                   key: _registerFormKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Get started free",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Enter your detail below",
-                          style: TextStyle(
-                            fontSize: 16,
-                            // fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          controller: _nameController,
-                          decoration: const InputDecoration(
-                            hintText: "username",
-                            labelText: "username",
-                            border: OutlineInputBorder(),
-                            // prefixIcon: Icon(Icons.badge_outlined)
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "username harus di isi";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            hintText: "email",
-                            labelText: "email",
-                            border: OutlineInputBorder(),
-                            // prefixIcon: Icon(Icons.person_2_outlined)
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "email harus di isi";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            hintText: "pasword",
-                            labelText: "password",
-                            border: OutlineInputBorder(),
-                            // prefixIcon: Icon(Icons.lock_outline),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "password harus di isi";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          controller: _confirmPasswordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            hintText: "confirm password",
-                            labelText: "confirm password",
-                            border: OutlineInputBorder(),
-                            // prefixIcon: Icon(Icons.lock_outline),
-                          ),
-                          validator: (value) {
-                            if (value != _passwordController.text) {
-                              return "Password and Confirm Password does not match";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              _onRegisterButtonTapped();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              backgroundColor: const Color(0xFF0A73D3),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Get started free",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
-                            child: const Text(
-                              "Sign up",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                      ),
-                    ],
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Enter your detail below",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: TextFormField(
+                            controller: _nameController,
+                            decoration: const InputDecoration(
+                              hintText: "username",
+                              labelText: "username",
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "username harus di isi";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: TextFormField(
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                              hintText: "email",
+                              labelText: "email",
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "email harus di isi";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: TextFormField(
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: "password",
+                              labelText: "password",
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "password harus di isi";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: TextFormField(
+                            controller: _confirmPasswordController,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: "confirm password",
+                              labelText: "confirm password",
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value != _passwordController.text) {
+                                return "Password and Confirm Password does not match";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: _onRegisterButtonTapped,
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                backgroundColor: const Color(0xFF0A73D3),
+                              ),
+                              child: const Text(
+                                "Sign up",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -256,31 +250,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _onRegisterButtonTapped() async {
     if (_registerFormKey.currentState!.validate()) {
-      /* register user ke API */
-      final ResponseModel response = await _userServices.registerUser(
+      final AuthModel result = await _authServices.register(
           name: _nameController.text,
           email: _emailController.text,
           password: _passwordController.text);
       if (!mounted) return;
       await showDialog(
         context: context,
-        builder: (context) {
-          Future.delayed(const Duration(seconds: 3), () {
-            if (mounted && Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
+        barrierDismissible: true,
+        builder: (BuildContext dialogContext) {
+          Future.delayed(const Duration(seconds: 1), () {
+            if (mounted && Navigator.of(dialogContext).canPop()) {
+              Navigator.of(dialogContext).pop();
             }
           });
           return AlertDialog(
-            /* menampilkan pesan dari server */
-            title: Text(response.status),
-            content: Text(response.message),
+            title: Text(result.status),
+            content: Text(result.message),
           );
         },
       );
 
-      if (response.status != "success") return;
-      if (!mounted) return;
-      Navigator.pop(context);
+      if (result.status == "success" && mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Navigation()),
+        );
+      }
     }
   }
 }
